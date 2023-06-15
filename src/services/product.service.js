@@ -1,5 +1,5 @@
 const { BadRequestError } = require("../core/error.response");
-const { product, clothing, electronic } = require("../models/product.model");
+const { product, clothing, electronic, furniture } = require("../models/product.model");
 
 
 class ProductService{
@@ -9,6 +9,8 @@ class ProductService{
                 return new Electronics(payload).createProduct()
             case 'Clothing': 
                 return new Clothing(payload).createProduct()
+            case 'Furniture': 
+                return new Furnitures(payload).createProduct()
             default: 
                 throw new BadRequestError(`Invalid type:::${type}`);
         }          
@@ -39,10 +41,10 @@ class Product{
 //define clothing class
 class Clothing extends Product{
     async createProduct(){
-        const newClothing = await clothing.create(this.product_attributes)
+        const newClothing = await clothing.create({...this.product_attributes, product_shop:this.product_shop})
         if(!newClothing) throw new BadRequestError(`create clothing product error`)
 
-        const newProduct = await super.createProduct()
+        const newProduct = await super.createProduct(newClothing._id)
         if(!newProduct) throw new BadRequestError(`create new product error`)
 
         return newProduct
@@ -65,6 +67,20 @@ class Electronics extends Product{
     }
 }
 
+class Furnitures extends Product{
+    async createProduct(){
+        const newFurniture = await furniture.create({
+            ...this.product_attributes,
+            product_shop: this.product_shop
+        })
+        if(!newFurniture) throw new BadRequestError(`create Furnitures product error`)
+
+        const newProduct = await super.createProduct(newFurniture._id)
+        if(!newProduct) throw new BadRequestError(`create new product error`)
+
+        return newProduct
+    }
+}
 
 
 module.exports = ProductService

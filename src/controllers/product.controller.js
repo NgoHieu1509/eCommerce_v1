@@ -1,4 +1,4 @@
-const { CreateRequest } = require("../core/success.response")
+const { CreateRequest, OKRequest } = require("../core/success.response")
 const ProductService = require("../services/product.service")
 
 
@@ -11,7 +11,17 @@ class ProductController {
                 product_shop: req.user.userId
             })
         }).send(res)
-    }
-}
 
+        //QUERY SET
+        getAllDraftsForShop = async (req, res) => {
+            new OKRequest({
+                message:'Get list success',
+                metadata: await ProductService.findAllDraftsForShop({
+                    product_shop: req.user.userId
+                })
+            }).send(res)
+    }
+        //END QUERY
+}
+}
 module.exports = ProductController
