@@ -8,7 +8,7 @@ let productSchema = new Schema({
     product_thumb: {type:String, require:true},
     product_description: {type: String},
     product_price: { type:Number, require:true},
-    product_quanity: {type: Number,  require:true},
+    product_quantity: {type: Number,  require:true},
     product_type: {type:String, require:true, enum:['Electronics','Clothing','Furniture']},
     product_shop: {type: Schema.Types.ObjectId, ref:'Shop'},
     product_attributes: {type: Schema.Types.Mixed,require:true}
@@ -40,10 +40,22 @@ const electronicSchema = new Schema({
     timestamps:true
 })
 
+//define the product type = Furniture
+const furnitureSchema = new Schema({
+    brand: {type: String, require:true},
+    size: String,
+    material: String,
+    product_shop: {type: Schema.Types.ObjectId, ref:'Shop'},
+},{
+    collection: 'Furnitures',
+    timestamps:true
+})
+
 
 
 module.exports ={
     product:  model(DOCUMENT_NAME,productSchema),
     clothing: model('Clothing',clothingSchema),
-    electronic: model('Electronics',electronicSchema)
+    electronic: model('Electronics',electronicSchema),
+    furniture: model('Furnitures',furnitureSchema)
 }
