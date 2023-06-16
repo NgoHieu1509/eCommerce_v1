@@ -1,6 +1,10 @@
 const { BadRequestError } = require("../core/error.response");
 const { product, clothing, electronic, furniture } = require("../models/product.model");
-const { findAllDraftsForShop, findAllPublishForShop, publishProductByShop, unPublishProductByShop } = require("../models/respositories/product.repo");
+const { findAllDraftsForShop, 
+    findAllPublishForShop, 
+    publishProductByShop, 
+    unPublishProductByShop, 
+    searchProductByUser } = require("../models/respositories/product.repo");
 
 
 class ProductService{
@@ -26,7 +30,6 @@ class ProductService{
         return await unPublishProductByShop({product_shop,product_id})
    }
 
-
     static async findAllDraftsForShop({product_shop, limit=50,skip=0}){
         const query = {product_shop, isDrafts: true}
         return await findAllDraftsForShop({query,limit,skip})
@@ -35,6 +38,10 @@ class ProductService{
     static async findAllPublishForShop({product_shop, limit=50,skip=0}){
         const query = {product_shop, isPublished: true}
         return await findAllPublishForShop({query,limit,skip})
+    }
+
+    static async searchProduct({keySearch}){
+        return await searchProductByUser({keySearch})
     }
 }
 
