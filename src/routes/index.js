@@ -6,7 +6,7 @@ const rootRouter = express.Router();
 
 
 rootRouter.use('/v1/api',accessRouter)
-rootRouter.use('/v1/api',productRouter)
+rootRouter.use('/v1/api/product',productRouter)
 
 module.exports = {
     rootRouter

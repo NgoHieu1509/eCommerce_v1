@@ -35,14 +35,7 @@ const createTokenPair = async (payload,publicKey,privateKey)=>{
 }
 
 const authentication = asyncHandler(async(req, res, next) =>{
-    /*
-        1- Check userId missing?
-        2- get accessToken
-        3- verify token
-        4- Check user in dbs?
-        5- Chech keyStore with this userId?
-        6- OK all => return next()
-    */ 
+    
     const userId = req.headers[HEADER.CLIENT_ID]
     if(!userId) throw new AuthFailureError('Invalid Request')
 
