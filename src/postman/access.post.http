@@ -8,7 +8,7 @@ Content-Type: application/json
 
 {
     "name":"Shop NGOHIEU3",
-    "email" :"shop1@gmail.com",
+    "email" :"shopngohieu01@gmail.com",
     "password" :"abc123"
 }
 
@@ -17,6 +17,7 @@ POST {{url_dev}}/v1/api/shop/login
 Content-Type: application/json
 
 {
-    "email":"shopng@gmail.com",
+    "email":"shopngohieu01@gmail.com",
     "password" :"abc123"
 }
+

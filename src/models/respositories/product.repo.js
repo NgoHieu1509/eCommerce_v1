@@ -1,6 +1,7 @@
 
 const {product,electronic,clothing,furniture} = require('../../models/product.model')
 const {Types} = require('mongoose')
+const { getSelectData, unSelectData } = require('../../utils')
 
 const queryProduct =async ({query,limit,skip}) =>{
     return await product.find(query).
@@ -11,6 +12,7 @@ const queryProduct =async ({query,limit,skip}) =>{
     .lean()
     .exec()
 }
+
 
 const findAllDraftsForShop = async({query,limit,skip}) =>{
     return await queryProduct({query,limit,skip})
@@ -32,7 +34,26 @@ const searchProductByUser = async({keySearch}) =>{
         return results
 }
 
+const findAllProduct = async({limit, sort , page,filter,select}) =>{
+    const skip = (page -1) * limit
+    const sortBy = sort === 'ctime' ? {_id: -1} : {_id :1}
+    const products = await product.find(filter)
+    .sort(sortBy)
+    .skip(skip)
+    .limit(limit)
+    .select(getSelectData(select)) //cu phap cua select la Object
+    .lean()
 
+    return products
+}
+
+const findProduct = async({product_id,unSelect}) =>{
+        return await product.findById(product_id).select(unSelectData(unSelect))
+}
+
+const updateProductById = async({product_id,payload,model,isNew=true})=>{
+    return await model.findByIdAndUpdate(product_id,payload,{new: isNew})
+}
 const publishProductByShop = async({product_shop, product_id}) =>{
     const foundShop =  await product.findOne({
         product_shop: new Types.ObjectId(product_shop),
@@ -70,5 +91,8 @@ module.exports = {
     findAllPublishForShop,
     publishProductByShop,
     unPublishProductByShop,
-    searchProductByUser
+    searchProductByUser,
+    findAllProduct,
+    findProduct,
+    updateProductById
 }
