@@ -1,7 +1,7 @@
 
 const {product,electronic,clothing,furniture} = require('../../models/product.model')
 const {Types} = require('mongoose')
-const { getSelectData, unSelectData } = require('../../utils')
+const { getSelectData, unSelectData, convertToObjectIdMongoDB } = require('../../utils')
 
 const queryProduct =async ({query,limit,skip}) =>{
     return await product.find(query).
@@ -84,6 +84,20 @@ const unPublishProductByShop = async({product_shop, product_id}) =>{
     return modifiedCount
 }
 
+const getProductById = async (product_id) =>{
+    return await product.findOne({_id: convertToObjectIdMongoDB(product_id)})
+}
+
+const checkProductByServer = async (products) =>{
+    return await Promise.all(products.map(async product =>{
+        const foundProduct = await getProductById(product.productId)
+        if(foundProduct) return {
+            price: foundProduct.product_price,
+            quantity: product.quantity,
+            productId: product.productId
+        }
+    }))
+}
 
 
 module.exports = {
@@ -94,5 +108,6 @@ module.exports = {
     searchProductByUser,
     findAllProduct,
     findProduct,
-    updateProductById
+    updateProductById,
+    checkProductByServer
 }

@@ -56,21 +56,7 @@ class CartService {
         if(quantity === 0){
 
         }
-        // "userId":"1001",
-        // "shop_order_ids":[
-        //     {
-        //         "shopId":"",
-        //         "item_products":[
-        //             {
-        //                 "quantity":10,
-        //                 "price":124,
-        //                 "shopId":"",
-        //                 "old_quantity":9,
-        //                 "productId":""
-        //             }
-        //         ]
-        //     }
-        // ]
+
         return await CartService.updateUserCartQuantity({
             userId,
             product:{

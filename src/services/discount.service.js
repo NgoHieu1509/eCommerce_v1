@@ -173,7 +173,7 @@ class DiscountService {
             if(totalOrder <discount_min_order_value) throw new NotFound(`Discount requires a minium order value of ${discount_min_order_value}`)
         }
 
-        if(discount_max_uses_per_user >0){
+        if(discount_max_uses_per_user > 0){
             const userUseDiscount = discount_users_used.find( user => user.userId)
             if(userUseDiscount) throw new NotFound('The user has used the discount ')
         }

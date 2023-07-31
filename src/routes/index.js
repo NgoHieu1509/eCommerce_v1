@@ -3,8 +3,10 @@ const { accessRouter } = require('./access');
 const { productRouter } = require('./product');
 const discountRouter = require('./discount');
 const cartRouter = require('./cart');
+const checkoutRoute = require('./checkout');
 const rootRouter = express.Router();
 
+rootRouter.use('/v1/api/checkout',checkoutRoute)
 rootRouter.use('/v1/api/cart',cartRouter)
 rootRouter.use('/v1/api/discount',discountRouter)
 rootRouter.use('/v1/api/product',productRouter)
